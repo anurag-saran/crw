@@ -1,0 +1,11 @@
+docker build -t asaran/nodeapp  .
+  
+docker run -it -p 3000:3000 asaran/nodeapp  
+docker login -u asaran
+ docker push asaran/nodeapp
+ 
+ docker build -t asaran/reactapp  .
+  
+docker run -p 8080:8080 asaran/reactapp  
+docker login -u asaran
+ docker push asaran/reactapp
