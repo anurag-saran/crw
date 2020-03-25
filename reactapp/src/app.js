@@ -8,9 +8,12 @@ import Header from './components/Header';
 import UsersList from './components/UsersList';
 import './css/styles.css';
 
+var nodejsurl = process.env.OPENSHIFT_NODEJS_USERS_URL || 'http://localhost:3000/users'
+console.log('environment_port: ' + nodejsurl);
+
 class App extends React.Component {
     componentDidMount() {
-        axios.get('http://localhost:3000/users')
+        axios.get(nodejsurl)
             .then(response => {
                 console.log(response.data);
                 store.dispatch(addUsers(response.data.results));
