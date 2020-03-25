@@ -17,16 +17,13 @@ projects:
 
 components:
 
-  - alias: nodejs-backend
+  - alias: nodejs-backend-dev
     type: dockerimage
     image: asaran/nodeapp
     memoryLimit: 1Gi
     command: ['sleep']
     args: ['infinity']
     mountSources: true
-    env:
-      - name: port
-        value: '3000'
     endpoints:
       - name: 'nodeapp/dev'
         port: 3000
@@ -40,8 +37,8 @@ components:
       - name: '8080/tcp'
         port: 8080
     env:
-      - name: FRONTEND_PORT
-        value: '8080'
+      - name: OPENSHIFT_NODEJS_USERS_URL
+        value: 'http://localhost:3000/users'
 
   - alias: java
     type: chePlugin
@@ -79,6 +76,20 @@ commands:
             }]
           }
 
+  - name: start DEV node-backend
+    actions:
+      - type: exec
+        command: npm start
+        component: nodejs-backend-dev
+        workdir: /projects/people-app/nodeapp/
+        
+  - name: start DEV node-backend
+    actions:
+      - type: exec
+        command: npm start
+        component: nodejs-backend-dev
+        workdir: /projects/people-app/reactapp/
+        
   - name: oc - scale reactapp-frontend
     actions:
       - type: exec
